@@ -1,3 +1,7 @@
+---
+import background from '../assets/background.svg';
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -8,11 +12,24 @@
 		<title>My proyecto</title>
 	</head>
 	<body>
-		<slot />
+		<div id="conteiner">
+			<img id="background" src={background.src} alt="" fetchpriority="high" />
+			<a href="/">Inicio</a>
+			<a href="/about/">Sobre mí</a>
+			<slot />
+		</div>
 	</body>
 </html>
 
 <style>
+	    @font-face {
+		font-family: 'Agave';
+		src: url('../AgaveNerdFont-Bold.ttf') format('truetype'),
+			 url('../AgaveNerdFont-Regular.ttf') format('truetype');
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+    }
 	html,
 	body {
 		margin: 0;
