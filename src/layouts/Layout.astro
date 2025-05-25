@@ -1,5 +1,6 @@
 ---
 import background from '../assets/background.svg';
+import Navigation from '../components/Navigation.astro';
 ---
 
 <!doctype html>
@@ -14,9 +15,7 @@ import background from '../assets/background.svg';
 	<body>
 		<div id="container">
 			<img id="background" src={background.src} alt="" fetchpriority="high" />
-			<a href="/">Inicio</a>
-			<a href="/about/">Sobre mí</a>
-			<a href="/blog">Entradas</a>
+			<Navigation />	
 			<slot />
 		</div>
 	</body>
