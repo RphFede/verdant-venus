@@ -1,6 +1,7 @@
 ---
 import background from '../assets/background.svg';
 import Navigation from '../components/Navigation.astro';
+const { pageTitle } = Astro.props;
 ---
 
 <!doctype html>
@@ -10,7 +11,6 @@ import Navigation from '../components/Navigation.astro';
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Mi proyecto</title>
 	</head>
 	<body>
 		<div id="container">
