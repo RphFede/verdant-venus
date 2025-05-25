@@ -1,8 +1,126 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import background from '../assets/background.svg';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
 ---
 
 <Layout>
+    <div class="blog-container">
+        <!-- Formulario de creación de posts -->
+        <form id="newPostForm" class="post-form">
+            <input type="text" id="title" name="title" placeholder="Título del post" required>
+            
+            <div class="font-controls">
+                <button type="button" class="font-btn regular">Regular</button>
+                <button type="button" class="font-btn bold">Negrita</button>
+                <button type="button" class="font-btn italic">Cursiva</button>
+            </div>
+            
+            <textarea id="content" name="content" placeholder="Contenido del post" required></textarea>
+            
+            <div class="tags-input">
+                <input type="text" id="tagInput" placeholder="Agregar etiqueta">
+                <button type="button" id="addTag">+</button>
+                <div id="tagContainer"></div>
+            </div>
+            
+            <button type="submit">Publicar</button>
+        </form>
 
+        <!-- Lista de posts existentes -->
+        <ul id="posts">
+            {posts.map(async (post) => {
+                const { Content } = await post.render();
+                return (
+                    <li>
+                        <h2>{post.data.title}</h2>
+                        <div class={`content ${post.data.fontStyle}`}>
+                            <Content />
+                        </div>
+                        <div class="post-meta">
+                            <span class="date">{new Date(post.data.date).toLocaleDateString()}</span>
+                            <div class="tags">
+                                {post.data.tags.map(tag => (
+                                    <span class="tag">{tag}</span>
+                                ))}
+                            </div>
+                        </div>
+                    </li>
+                );
+            })}
+        </ul>
+    </div>
 </Layout>
+
+<style>
+ .blog-container {
+        margin: 2rem 7rem;
+    }
+
+    .post-form {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 2rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 0.3rem;
+        color: white;
+    }
+
+    .font-controls {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .font-btn {
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 0.3rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    .font-btn.active {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .tags-input {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    #tagContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .tag {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.2rem 0.5rem;
+        border-radius: 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .date {
+        font-size: 0.8rem;
+        color: #999;
+    }
+
+    .regular { font-style: normal; }
+    .bold { font-weight: bold; }
+    .italic { font-style: italic; }
+</style>
